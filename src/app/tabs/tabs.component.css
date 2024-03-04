@@ -1,0 +1,43 @@
+.tabs {
+	border-bottom: 1px solid rgb(223, 223, 223);
+	display: flex;
+	list-style: none;
+	margin-bottom: 0;
+	overflow-x: auto;
+	padding-left: 0;
+}
+
+.tabs__item {
+	align-items: center;
+	background-color: #b4b4b4;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	color: white;
+	display: flex;
+	gap: 30px;
+	justify-content: space-between;
+	min-width: fit-content;
+	padding: 10px;
+	white-space: nowrap;
+}
+
+.tabs__close {
+	background-color: rgba(0, 0, 0, 0.253);
+	border-radius: 3px;
+	min-width: 18px;
+	text-align: center;
+	width: 18px;
+}
+
+.tabs__item:not(.tabs__item--active):hover {
+	background-color: #949494;
+	cursor: pointer;
+}
+
+.tabs__item:hover {
+	cursor: pointer;
+}
+
+.tabs__item--active {
+	background-color: #337ab7;
+}

@@ -1,0 +1,24 @@
+<ul class="tabs">
+	<li
+		class="tabs__item"
+		[ngClass]="{ 'tabs__item--active': activeIndex === i }"
+		*ngFor="let tab of tabs; index as i"
+		(click)="changeActiveTabTo(i)"
+	>
+		{{ tab.title }}
+		<span class="tabs__close" (click)="deleteItem(tab.emitOnDelete, i)">x</span>
+	</li>
+</ul>
+
+<section>
+	<ng-container
+		[ngTemplateOutlet]="activeTab || defaultTemplate"
+	></ng-container>
+</section>
+
+<ng-template #defaultTemplate>
+	<div class="well">
+		<h3>Select a tab</h3>
+		<p>Pick a tab to start looking its content.</p>
+	</div>
+</ng-template>
