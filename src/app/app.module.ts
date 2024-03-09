@@ -40,8 +40,8 @@ import { ZipcodeEntryComponent } from "./zipcode-entry/zipcode-entry.component";
 		CachingModule.forRoot({
 			storage: localStorage,
 			urls: [
-				"http://api.openweathermap.org/data/2.5/weather",
-				"http://api.openweathermap.org/data/2.5/forecast/daily",
+				"https://api.openweathermap.org/data/2.5/weather",
+				"https://api.openweathermap.org/data/2.5/forecast/daily",
 			],
 			time: 7200,
 		}),
