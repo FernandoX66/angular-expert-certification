@@ -1,10 +1,13 @@
-import { Injectable, Signal, signal } from "@angular/core";
+import { Injectable, Signal, inject, signal } from "@angular/core";
+
+import { StorageService } from "app/caching/storage.service";
 
 export const LOCATIONS: string = "locations";
 
 @Injectable()
 export class LocationService {
 	private readonly _locations = signal<string[]>([]);
+	private readonly storageService = inject(StorageService);
 
 	get locations(): Signal<string[]> {
 		return this._locations.asReadonly();
@@ -15,20 +18,20 @@ export class LocationService {
 	}
 
 	loadLocationsFromStorage(): void {
-		const locString = localStorage.getItem(LOCATIONS);
-		if (!locString) return;
-		this._locations.set(JSON.parse(locString));
+		const locations = this.storageService.getItemFrom<string[]>(LOCATIONS);
+		if (!locations) return;
+		this._locations.set(locations);
 	}
 
 	addLocation(zipcode: string) {
 		this._locations.update((locations: string[]) => [...locations, zipcode]);
-		localStorage.setItem(LOCATIONS, JSON.stringify(this.locations()));
+		this.storageService.set(this.locations(), LOCATIONS);
 	}
 
 	removeLocation(zipcode: string) {
 		this._locations.update((locations: string[]) =>
 			locations.filter((location: string) => location !== zipcode)
 		);
-		localStorage.setItem(LOCATIONS, JSON.stringify(this.locations()));
+		this.storageService.set(this.locations(), LOCATIONS);
 	}
 }

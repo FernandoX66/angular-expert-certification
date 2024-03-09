@@ -1,8 +1,9 @@
 import { Component, inject, Signal } from "@angular/core";
-import { WeatherService } from "../services/weather.service";
-import { LocationService } from "../services/location.service";
 import { Router } from "@angular/router";
+
 import { ConditionsAndZip } from "../conditions-and-zip.type";
+import { LocationService } from "../services/location.service";
+import { WeatherService } from "../services/weather.service";
 
 @Component({
 	selector: "app-current-conditions",
@@ -18,9 +19,5 @@ export class CurrentConditionsComponent {
 
 	showForecast(zipcode: string) {
 		this.router.navigate(["/forecast", zipcode]);
-	}
-
-	onItemDeleted(event: any): void {
-		console.log(event);
 	}
 }
