@@ -11,7 +11,7 @@ import { WeatherService } from "../services/weather.service";
 	styleUrls: ["./current-conditions.component.css"],
 })
 export class CurrentConditionsComponent {
-	private weatherService = inject(WeatherService);
+	protected weatherService = inject(WeatherService);
 	private router = inject(Router);
 	protected locationService = inject(LocationService);
 	protected currentConditionsByZip: Signal<ConditionsAndZip[]> =

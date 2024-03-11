@@ -21,7 +21,7 @@ import { TabDirective } from "app/tabs/tab.directive";
 })
 export class TabsComponent implements AfterContentInit, OnDestroy {
 	@ContentChildren(TabDirective) tabDirectives: QueryList<TabDirective>;
-	@Output() itemDeleted: EventEmitter<any> = new EventEmitter<any>();
+	@Output() itemDeleted: EventEmitter<string> = new EventEmitter<string>();
 
 	activeIndex: number | null = null;
 	activeTab: TemplateRef<unknown> | null = null;
@@ -38,7 +38,7 @@ export class TabsComponent implements AfterContentInit, OnDestroy {
 		);
 	}
 
-	deleteItem(emitOnDelete: any, anIndex: number): void {
+	deleteItem(emitOnDelete: string, anIndex: number): void {
 		this.tabs = this.tabs.filter((_, i: number) => anIndex !== i);
 		this.itemDeleted.emit(emitOnDelete);
 		this.resetActiveTab();

@@ -12,20 +12,21 @@ import { tap } from "rxjs/operators";
 
 import { CACHING_CONFIG } from "./caching-config.token";
 import { StorageService } from "./storage.service";
+import { CachedResponse } from "./cached-response.interface";
 
 export class cachingInterceptor implements HttpInterceptor {
 	private readonly storageService = inject(StorageService);
 	private readonly config = inject(CACHING_CONFIG);
 
 	intercept(
-		req: HttpRequest<any>,
+		req: HttpRequest<unknown>,
 		next: HttpHandler
-	): Observable<HttpEvent<any>> {
+	): Observable<HttpEvent<unknown>> {
 		if (!this.checkIfCacheable(req)) return next.handle(req);
 
-		const cachedResponse = this.storageService.getItemFrom<any>(
-			this.getRequestKey(req)
-		);
+		const cachedResponse = this.storageService.getItemFrom<
+			CachedResponse<unknown>
+		>(this.getRequestKey(req));
 		if (cachedResponse) {
 			const { response, timestamp } = cachedResponse;
 			if (this.getSecondsPassedFor(timestamp) <= this.config.time) {
@@ -36,20 +37,21 @@ export class cachingInterceptor implements HttpInterceptor {
 		return next.handle(req).pipe(
 			tap((response) => {
 				if (response instanceof HttpResponse) {
-					this.storageService.set(
-						{ response, timestamp: Date.now() },
-						this.getRequestKey(req)
-					);
+					const cachedResponse: CachedResponse<unknown> = {
+						response,
+						timestamp: Date.now(),
+					};
+					this.storageService.set(cachedResponse, this.getRequestKey(req));
 				}
 			})
 		);
 	}
 
-	private checkIfCacheable(req: HttpRequest<any>): boolean {
+	private checkIfCacheable(req: HttpRequest<unknown>): boolean {
 		return this.config.urls.includes(req.url);
 	}
 
-	private getRequestKey(req: HttpRequest<any>): string {
+	private getRequestKey(req: HttpRequest<unknown>): string {
 		let result = req.url;
 		req.params.keys().forEach((key) => {
 			const value = req.params.get(key);

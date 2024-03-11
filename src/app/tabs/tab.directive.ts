@@ -5,7 +5,7 @@ import { Directive, Input, TemplateRef, inject } from "@angular/core";
 })
 export class TabDirective {
 	@Input("appTab") title: string = "";
-	@Input("appTabEmitOnDelete") emitOnDelete: any;
+	@Input("appTabEmitOnDelete") emitOnDelete: string;
 
 	templateRef: TemplateRef<unknown> = inject(TemplateRef);
 }
